@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -59,6 +60,14 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No user is logged in.");
     }
 
+    @GetMapping("/check-session")
+    public ResponseEntity<?> checkSession(HttpSession session) {
+        Account user = (Account) session.getAttribute("user");
+        if (user != null) {
+            return ResponseEntity.ok(Map.of("loggedIn", true, "username", user.getUsername()));
+        }
+        return ResponseEntity.ok(Map.of("loggedIn", false));
+    }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest, HttpSession session) {
