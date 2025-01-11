@@ -18,6 +18,18 @@ public class Account {
     @JsonProperty("username")
     private String username;
 
+    public String getEmail() {
+        return email;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
     @JsonProperty("email")
     private String email;
 
