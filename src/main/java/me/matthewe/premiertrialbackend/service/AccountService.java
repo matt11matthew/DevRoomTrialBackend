@@ -22,6 +22,11 @@ public class AccountService {
         return accountRepository.save(account);
     }
 
+    public Optional<Account> getAccountByEmail(String email) {
+        return accountRepository.findByEmail(email);
+    }
+
+
     public Optional<Account> getAccountByUsername(String username) {
         return accountRepository.findByUsername(username);
     }
