@@ -1,12 +1,12 @@
-package me.matthewe.premiertrialbackend.service;
+package me.matthewe.devroomtrialbackend.service;
 
-import me.matthewe.premiertrialbackend.data.Account;
-import me.matthewe.premiertrialbackend.repository.AccountRepository;
+import me.matthewe.devroomtrialbackend.data.Account;
+import me.matthewe.devroomtrialbackend.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service

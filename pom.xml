@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>me.matthewe</groupId>
-    <artifactId>PremierTrialBackend</artifactId>
+    <artifactId>DevRoomTrialBackend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>PremierTrialBackend</name>
     <description>PremierTrialBackend</description>

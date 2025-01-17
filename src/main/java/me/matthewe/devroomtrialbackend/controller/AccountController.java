@@ -1,10 +1,9 @@
-package me.matthewe.premiertrialbackend.controller;
+package me.matthewe.devroomtrialbackend.controller;
 
 import jakarta.servlet.http.HttpSession;
-import lombok.extern.slf4j.Slf4j;
-import me.matthewe.premiertrialbackend.LoginRequest;
-import me.matthewe.premiertrialbackend.data.Account;
-import me.matthewe.premiertrialbackend.service.AccountService;
+import me.matthewe.devroomtrialbackend.LoginRequest;
+import me.matthewe.devroomtrialbackend.data.Account;
+import me.matthewe.devroomtrialbackend.service.AccountService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;

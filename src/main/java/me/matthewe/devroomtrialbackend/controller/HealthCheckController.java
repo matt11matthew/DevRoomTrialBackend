@@ -1,4 +1,4 @@
-package me.matthewe.premiertrialbackend.controller;
+package me.matthewe.devroomtrialbackend.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

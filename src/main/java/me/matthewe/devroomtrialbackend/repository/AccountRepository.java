@@ -1,6 +1,6 @@
-package me.matthewe.premiertrialbackend.repository;
+package me.matthewe.devroomtrialbackend.repository;
 
-import me.matthewe.premiertrialbackend.data.Account;
+import me.matthewe.devroomtrialbackend.data.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

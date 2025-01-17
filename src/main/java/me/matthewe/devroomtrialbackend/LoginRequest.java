@@ -1,4 +1,4 @@
-package me.matthewe.premiertrialbackend;
+package me.matthewe.devroomtrialbackend;
 
 public class LoginRequest {
     private String username;

@@ -1,7 +1,4 @@
-package me.matthewe.premiertrialbackend.controller;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
+package me.matthewe.devroomtrialbackend.controller;
 
 public class AccountDTO {
     private Long id;

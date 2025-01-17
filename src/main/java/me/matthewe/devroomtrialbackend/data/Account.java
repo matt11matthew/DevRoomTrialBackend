@@ -1,4 +1,4 @@
-package me.matthewe.premiertrialbackend.data;
+package me.matthewe.devroomtrialbackend.data;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
