@@ -49,7 +49,7 @@ public class DataSourceConfig {
 
         return builder
                 .dataSource(dataSource)
-                .packages("me.matthewe.premiertrialbackend.data") // Adjust this package as needed
+                .packages("me.matthewe.devroomtrialbackend.data") // Adjust this package as needed
                 .persistenceUnit("default")
                 .properties(jpaProperties)
                 .build();
