@@ -40,6 +40,22 @@ services:
           memory: 256M
         reservations:
           memory: 128M
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: devroomtrial-backend
+    ports:
+      - '8081:8081'
+      - '8082:8082'
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://mariadb:3306/mydatabase
+      - SPRING_DATASOURCE_USERNAME=myuser
+      - SPRING_DATASOURCE_PASSWORD=secret
+    depends_on:
+      - mariadb
+    networks:
+      - app-network
 
 networks:
   app-network:
