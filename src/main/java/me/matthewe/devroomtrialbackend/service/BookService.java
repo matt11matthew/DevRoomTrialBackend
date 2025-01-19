@@ -38,4 +38,11 @@ public class BookService {
         }
         return false;
     }
+    public Iterable<Book> findAll() {
+        return bookRepository.findAll();
+    }
+
+    public void updateBook(Book book) {
+        bookRepository.save(book);
+    }
 }

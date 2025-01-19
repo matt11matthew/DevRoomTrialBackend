@@ -22,6 +22,53 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
+    // Endpoint to get all books
+    @GetMapping("/books")
+    public ResponseEntity<Iterable<Book>> getAllBooks() {
+        try {
+            Iterable<Book> books = bookService.findAll();
+            return ResponseEntity.ok(books);
+        } catch (Exception e) {
+            log.error("Error fetching all books", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
+    @PostMapping("/{id}/return")
+    public ResponseEntity<String> returnBook(@PathVariable UUID id, @RequestHeader("username") String username) {
+        Optional<Book> bookOptional = bookService.findById(id);
+        if (bookOptional.isPresent()) {
+            Book book = bookOptional.get();
+            if (!"checked_out".equals(book.getStatus()) || !username.equals(book.getCheckedOutBy())) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You cannot return this book.");
+            }
+            book.setStatus("Available");
+            book.setCheckedOutBy(null);
+            bookService.updateBook(book);
+            return ResponseEntity.ok("Book returned successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Book not found.");
+        }
+    }
+
+    @PostMapping("/{id}/checkout")
+    public ResponseEntity<String> checkoutBook(@PathVariable UUID id, @RequestHeader("username") String username) {
+        Optional<Book> bookOptional = bookService.findById(id);
+        if (bookOptional.isPresent()) {
+            Book book = bookOptional.get();
+            if (!"Available".equals(book.getStatus())) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Book is already checked out.");
+            }
+            book.setStatus("checked_out");
+            book.setCheckedOutBy(username);
+            bookService.updateBook(book);
+            return ResponseEntity.ok("Book checked out successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Book not found.");
+        }
+    }
+
     @PostMapping
     public ResponseEntity<Book> createBook(@RequestBody Map<String,Object> map) {
         try {

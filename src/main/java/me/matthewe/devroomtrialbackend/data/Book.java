@@ -35,6 +35,10 @@ public class Book {
         this.checkedOutBy = checkedOutBy;
     }
 
+    public void setCheckedOutBy(String checkedOutBy) {
+        this.checkedOutBy = checkedOutBy;
+    }
+
     @Override
     public String toString() {
         return "Book{" +

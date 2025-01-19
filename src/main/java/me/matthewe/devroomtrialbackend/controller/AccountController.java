@@ -1,8 +1,10 @@
 package me.matthewe.devroomtrialbackend.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import me.matthewe.devroomtrialbackend.LoginRequest;
 import me.matthewe.devroomtrialbackend.data.Account;
+import me.matthewe.devroomtrialbackend.data.Book;
 import me.matthewe.devroomtrialbackend.service.AccountService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,6 +31,9 @@ public class AccountController {
 
     // Map to store active sessions by username
     private final Map<String, List<HttpSession>> activeSessions = new ConcurrentHashMap<>();
+
+
+
 
     // Add this method to the AccountController
     @GetMapping("/active-sessions")
@@ -134,10 +139,20 @@ public class AccountController {
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No user is logged in.");
     }
-
+    private String getClientIpAddress(HttpServletRequest request) {
+        String clientIp = request.getHeader("X-Forwarded-For");
+        if (clientIp == null || clientIp.isEmpty() || "unknown".equalsIgnoreCase(clientIp)) {
+            clientIp = request.getRemoteAddr();
+        }
+        // If X-Forwarded-For contains multiple IPs, take the first one
+        if (clientIp != null && clientIp.contains(",")) {
+            clientIp = clientIp.split(",")[0].trim();
+        }
+        return clientIp;
+    }
     // View active sessions for the logged-in user
     @GetMapping("/sessions")
-    public ResponseEntity<?> viewActiveSessions(HttpSession session) {
+    public ResponseEntity<?> viewActiveSessions(HttpSession session, HttpServletRequest request) {
         Account user = (Account) session.getAttribute("user");
         if (user != null) {
             List<HttpSession> sessions = activeSessions.get(user.getUsername());
@@ -162,12 +177,19 @@ public class AccountController {
     public ResponseEntity<?> logoutSpecificSession(@RequestParam String sessionId, HttpSession currentSession) {
         Account user = (Account) currentSession.getAttribute("user");
         if (user != null) {
-            List<HttpSession> sessions = activeSessions.get(user.getUsername());
-            if (sessions != null) {
-                for (HttpSession s : sessions) {
-                    if (s.getId().equals(sessionId)) {
-                        sessions.remove(s);
-                        s.invalidate();
+            synchronized (activeSessions) {
+                List<HttpSession> sessions = activeSessions.get(user.getUsername());
+                if (sessions != null) {
+                    HttpSession targetSession = null;
+                    for (HttpSession s : sessions) {
+                        if (s.getId().equals(sessionId)) {
+                            targetSession = s;
+                            break;
+                        }
+                    }
+                    if (targetSession != null) {
+                        sessions.remove(targetSession);
+                        targetSession.invalidate();
                         log.info("User " + user.getUsername() + " logged out from session " + sessionId);
                         if (sessions.isEmpty()) {
                             activeSessions.remove(user.getUsername());
@@ -180,4 +202,5 @@ public class AccountController {
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in.");
     }
+
 }
